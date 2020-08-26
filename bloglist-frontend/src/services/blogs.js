@@ -31,7 +31,7 @@ const getBlog = (newObject) => {
 //   const request = axios.get(`http://localhost:3003/api/blogs/:${blog.id}`)
 //   return request.then(response => response.data)
 // })
-  console.log("newobject:",newObject)
+  ///console.log("newobject:",newObject)
   const request = axios.get(`http://localhost:3003/api/blogs/${newObject}`)
   
   return request.then(response =>response.data)

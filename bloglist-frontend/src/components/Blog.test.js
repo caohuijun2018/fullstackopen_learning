@@ -12,8 +12,11 @@ test('render Blog', () => {
     const component = render(
         <Blog blog = {blog}/>
     )
+    
     expect(component.container).toHaveTextContent(
         'Doubt is the key to knowledge.'
     )
 })
+
+
 

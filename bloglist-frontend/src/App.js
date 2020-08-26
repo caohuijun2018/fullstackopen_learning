@@ -66,7 +66,7 @@ const App = () => {
     //登出
 
     window.localStorage.removeItem("loggedBlogappUser", JSON.stringify(user));
-   //s loginService.deleteToken(user.token);
+    //s loginService.deleteToken(user.token);
   };
 
   const addBlogs = (event) => {
@@ -139,7 +139,7 @@ const App = () => {
 
   const BlogView = (props) => (
     <ReTogglable buttonLabel="view">
-      <BlogToView id={props.id} />
+      <BlogToView id={props.id}   buttonLabel = 'likes'/>
     </ReTogglable>
   );
 

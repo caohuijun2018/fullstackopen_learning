@@ -13,12 +13,13 @@ const BlogForm = ({
   handleChangeLikes,
 }) => {
   return (
-    <div>
+    <div className = 'formDiv'>
       <h2>create new</h2>
       <form onSubmit={onsubmit}>
-        <div>
+        <div  >
           title:
           <input
+          name = 'title'
             type="text"
             value={valueTitle}
             onChange={handleChangeTitle}
@@ -27,6 +28,7 @@ const BlogForm = ({
         <div>
           author:
           <input
+          name = 'author'
             type="text"
             value={valueAuthor}
             onChange={handleChangeAuthor}
@@ -35,6 +37,7 @@ const BlogForm = ({
         <div>
           url:
           <input
+          className = 'url'
             type="text"
             value={valueUrl}
             onChange={handleChangeUrl}
@@ -43,6 +46,7 @@ const BlogForm = ({
         <div>
           likes:
           <input
+          className = 'likes'
             type="text"
             value={valueLikes}
             onChange={handleChangeLikes}
