@@ -1,0 +1,22 @@
+.h2{
+    color : blue;
+}
+.li{
+    color: purple;
+}
+.button{
+    color: salmon;
+    size: 2cm;
+}
+.div{
+    color: seagreen;
+}
+.errorMessage{
+    color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
