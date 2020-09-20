@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Note from "./components/Note";
-
+import './App.css'
+import axios from'axios'
 const App = (props) => {
-  const [notes, setNotes] = useState(props.notes)
+  const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState(' ')
   const [showAll, setShowAll] = useState(true)
+ useEffect (() => {
+  axios
+     .get('http://localhost:3001/notes')
+     .then(response => {
+       console.log('effect')
+       setNotes(response.data)
+     })
+ },[]) //第二个参数为空数组，说明该组件只在第一次渲染的时候执行
+  
   const addNote = (event) => {
     event.preventDefault();
     const noteObject = {
