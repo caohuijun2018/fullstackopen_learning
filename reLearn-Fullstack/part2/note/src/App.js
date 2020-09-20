@@ -37,6 +37,16 @@ const App = (props) => {
     console.log(event.target.value)
     setNewNote(event.target.value)
   }
+  const toggleImportantOf = id => {
+    const url = `http://localhost:3001/notes/${id}`
+    const note = notes.find(note => note.id === id)
+    const changeNote = { ...note, important: !note.important }
+    axios
+      .put(url, changeNote).then(response => {
+        setNotes(notes.map(note => note.id !== id ? note : response.data))
+      })
+    console.log(`the impostant of ${id} will be changed`)
+  }
   return (
     <div>
       <h1>Notes</h1>
@@ -47,7 +57,7 @@ const App = (props) => {
       </div>
       <ul>
         {noteToShow.map((note) => (
-          <Note key={note.id} note={note} />
+          <Note key={note.id} note={note} toggleImportant={() => toggleImportantOf(note.id)} />
         ))}
       </ul>
 

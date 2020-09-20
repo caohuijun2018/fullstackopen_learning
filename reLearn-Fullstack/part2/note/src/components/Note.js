@@ -1,7 +1,13 @@
 import React from "react";
-const Note = ({ note }) => {
+const Note = ({ note  ,toggleImportant}) => {
   //接收一个note对象
-  return <li>{note.content}</li>;
+
+  const lable = note.important ? 'make not important' : 'make important'
+  return(
+  <li>{note.content}
+  <button onClick = {toggleImportant}>{lable}</button>
+  </li>
+  )
 };
 
 export default Note;
