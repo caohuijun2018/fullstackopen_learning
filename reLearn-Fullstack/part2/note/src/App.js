@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Note from "./components/Note";
 import './App.css'
-import axios from 'axios'
+//import axios from 'axios'
+import noteService from './services/note'
 const App = (props) => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState(' ')
   const [showAll, setShowAll] = useState(true)
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
+    noteService
+      .getAll()
+      .then(intilaNote => {
         console.log('effect')
-        setNotes(response.data)
+        setNotes(intilaNote)
       })
   }, []) //第二个参数为空数组，说明该组件只在第一次渲染的时候执行
 
@@ -24,10 +25,10 @@ const App = (props) => {
       important: Math.random() < 0.5
     }
 
-    axios
-      .post('http://localhost:3001/notes', noteObject)
-      .then(response => {
-        setNotes(notes.concat(response.data))
+    noteService
+      .create(noteObject)
+      .then(returnNote => {
+        setNotes(notes.concat(returnNote))
         setNewNote('')
       })
 
@@ -38,12 +39,17 @@ const App = (props) => {
     setNewNote(event.target.value)
   }
   const toggleImportantOf = id => {
-    const url = `http://localhost:3001/notes/${id}`
+    //const url = `http://localhost:3001/notes/${id}`
     const note = notes.find(note => note.id === id)
     const changeNote = { ...note, important: !note.important }
-    axios
-      .put(url, changeNote).then(response => {
-        setNotes(notes.map(note => note.id !== id ? note : response.data))
+    noteService
+      .update(id,changeNote)
+      .then(returnNote => {
+        setNotes(notes.map(note => note.id !== id ? note : returnNote))
+      })
+      .catch(error => {
+        alert(`the note of ${note.content} has alreadly deleted`)
+        setNotes(notes.filter(note => note.id !== id ))
       })
     console.log(`the impostant of ${id} will be changed`)
   }

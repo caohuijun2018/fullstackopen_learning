@@ -21,7 +21,12 @@
     {
       "id": 4,
       "content": " kljk",
-      "important": true
+      "important": false
+    },
+    {
+      "id": 5,
+      "content": " jfksd",
+      "important": false
     }
   ]
 }
