@@ -10,12 +10,12 @@ const App = () => {
   const [filterName, setFilterName] = useState("");
   useEffect(() => {
     personServices
-     .getAll()
-     .then(initilaPerson => {
-       setPersons(initilaPerson)
-       console.log(initilaPerson)
-     })
-    }, [])
+      .getAll()
+      .then(initilaPerson => {
+        setPersons(initilaPerson)
+        console.log(initilaPerson)
+      })
+  }, [])
   const Notification = ({ message }) => {
     if (message === null) {
       return null;
@@ -62,17 +62,18 @@ const App = () => {
   };
   const deletePerson = (person) => {
     const isDelete = window.confirm(`Delete ${person.name} ?`)
-    if(isDelete === true){
+    if (isDelete === true) {
       axios
-    .delete(`http://localhost:3001/persons/${person.id}`)
-    .then( ()=> {
-      personServices
-       .getAll()
-        .then(person => {
-          setPersons(person)
+        .delete(`http://localhost:3001/persons/${person.id}`)
+        .then(() => {
+          personServices
+            .getAll()
+            .then(person => {
+              setPersons(person)
+            })
         })
-    })
-  }}
+    }
+  }
   return (
     <div>
       <Notification message={errorMessage} />
@@ -106,7 +107,7 @@ const App = () => {
             <li key={i} className=" li">
               {" "}
               {person.name} {person.number}
-            <button onClick = {() => deletePerson(person)}>delete</button>
+              <button onClick={() => deletePerson(person)}>delete</button>
             </li>
           ))}
     </div>
