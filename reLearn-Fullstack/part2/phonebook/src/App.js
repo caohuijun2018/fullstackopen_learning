@@ -1,6 +1,7 @@
-import React, { useState  , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import axios from 'axios'
+import personServices from './Sercives/personServices'
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
@@ -8,13 +9,15 @@ const App = () => {
   const [newPhone, setNewPhone] = useState("");
   const [filterName, setFilterName] = useState("");
   useEffect(() => {
-    axios
-     .get('http://localhost:3001/persons')
-     .then(response => {
-       setPersons(response.data)
-       console.log(response.data)
+    personServices
+     .getAll()
+     .then(initilaPerson => {
+       setPersons(initilaPerson)
+       console.log(initilaPerson)
      })
-  },[])
+
+    
+  }, [])
   const Notification = ({ message }) => {
     if (message === null) {
       return null;
@@ -33,10 +36,15 @@ const App = () => {
       if (person.name === newName) flag = 1;
     });
     if (flag === 0) {
-      setPersons(persons.concat(Object));
-      console.log("object", Object);
-      setNewName("");
-      setNewPhone("");
+      axios
+        .post('http://localhost:3001/persons', Object)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          console.log("object", Object)
+          setNewName('')
+          setNewPhone('')
+        })
+
     } else {
       setErrorMessage(`${newName} has been added`);
       setTimeout(() => {
@@ -81,7 +89,7 @@ const App = () => {
       {persons &&
         persons
           .filter((person) =>
-            person.name.toLowerCase().indexOf(filterName.toLowerCase() )!== -1
+            person.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
           )
           .map((person, i) => (
             <li key={i} className=" li">
