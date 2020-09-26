@@ -6,6 +6,7 @@ const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
+  const [SussMessage,setSussMessage] = useState(null)
   const [newPhone, setNewPhone] = useState("");
   const [filterName, setFilterName] = useState("");
   const servicesCompontent = () => {
@@ -24,11 +25,17 @@ const App = () => {
     //     console.log(initilaPerson)
     //   })
   }, [])
-  const Notification = ({ message }) => {
+  const NotificationError = ({ message }) => {
     if (message === null) {
       return null;
     }
     return <div className="errorMessage">{message}</div>;
+  };
+  const Notificationsucc = ({ message }) => {
+    if (message === null) {
+      return null;
+    }
+    return <div className="sussMeaagae">{message}</div>;
   };
   const addPerson = (event) => {
     event.preventDefault();
@@ -38,12 +45,12 @@ const App = () => {
       id: persons.length + 1,
     };
     
-    const person = persons.filter(person => { 
-      return person.name === Object.name && person.number !== Object.number//filter的返回值是一个数组
+    const person = persons.find(person => { 
+      return person.name === Object.name && person.number !== Object.number
     })//找到的符合更新条件的person
     if(person){
-      console.log("person",person[0].id)
-      isUpdate({...Object,id: person[0].id})
+      console.log("person",person)
+      isUpdate({...Object,id: person.id})
       return 
     }
     let flag = 0;
@@ -59,7 +66,10 @@ const App = () => {
           setNewName('')
           setNewPhone('')
         })
-
+        setSussMessage(`${newName}'s phone is ${newPhone} , this perple be added`)
+        setTimeout(() => {
+          setSussMessage(null)
+        },5000)
     } else {
       setErrorMessage(`${newName} has been added`);
       setTimeout(() => {
@@ -73,7 +83,7 @@ const App = () => {
     console.log("person", person)
     if(flag === true){
       personServices
-       .update(person)
+       .update(person)  //此时的参数person的值为Object（后输入的信息）
        .then(() => {
          servicesCompontent()
        })
@@ -102,9 +112,13 @@ const App = () => {
       personServices
         .deleteOne(person.id)
         .then(() => {
+          setSussMessage(`${person.name} has been delete`)
+          setTimeout(() => {
+            setSussMessage(null)
+          },5000)
           servicesCompontent()
         })
-
+      
 
       // axios
       //   .delete(`http://localhost:3001/persons/${person.id}`)
@@ -119,7 +133,7 @@ const App = () => {
   }
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notificationsucc message={SussMessage} />
       <h2 className="h2">Phonebook</h2>
       <div>
         filter shown with
@@ -153,6 +167,7 @@ const App = () => {
               <button onClick={() => deletePerson(person)}>delete</button>
             </li>
           ))}
+        <NotificationError message = {errorMessage}/>
     </div>
   );
 };

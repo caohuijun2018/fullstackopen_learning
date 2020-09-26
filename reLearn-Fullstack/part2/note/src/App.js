@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Note from "./components/Note";
-import './App.css'
-//import axios from 'axios'
+
+
 import noteService from './services/note'
+
 const App = (props) => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState(' ')
   const [showAll, setShowAll] = useState(true)
+  const [errorMessage,setErrormessage] = useState('')
   useEffect(() => {
     noteService
       .getAll()
@@ -16,6 +18,16 @@ const App = (props) => {
       })
   }, []) //第二个参数为空数组，说明该组件只在第一次渲染的时候执行
 
+  const NotificationError = ({message}) => {
+    if(message === null){
+      return null
+    }
+    return (
+      <div className = 'error'>
+        {message}
+      </div>
+    )
+  }
   const addNote = (event) => {
     event.preventDefault();
     const noteObject = {
@@ -48,13 +60,17 @@ const App = (props) => {
         setNotes(notes.map(note => note.id !== id ? note : returnNote))
       })
       .catch(error => {
-        alert(`the note of ${note.content} has alreadly deleted`)
-        setNotes(notes.filter(note => note.id !== id ))
+        setErrormessage(`the note of ${note.content} has alreadly deleted`)
+        setTimeout(() => {
+          setErrormessage(null)
+        },5000)
+        setNotes(notes.filter(note => note.id !== id )) 
       })
     console.log(`the impostant of ${id} will be changed`)
   }
   return (
     <div>
+      <NotificationError  message = {errorMessage}/>
       <h1>Notes</h1>
       <div>
         <button onClick={() => setShowAll(!showAll)}>
